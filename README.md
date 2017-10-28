@@ -1,4 +1,4 @@
-# Etherium basic (Workshop)
+# TensorFlow basic (Workshop)
 
 This project was created by tensorflow workshop
 
@@ -16,10 +16,9 @@ Navigate to [`http://localhost:3000/`](http://localhost:3000/).The app will popu
 ## Further help
 
 Contact us if you have any question or improvement proposal.
-* <a href="mailto:ruben.chavarri@kairosds.com?subject=Ethereum%20basic%20workshop">ruben.chavarri@kairosds.com</a>
-* <a href="mailto:carlos.canado@kairosds.com?subject=Ethereum%20basic%20workshop">carlos.canado@kairosds.com</a>
+* <a href="mailto:ruchavarri@gmail.com?subject=TensorFlow%20basic%20workshop">ruchavarri@gmail.com</a>
+* <a href="mailto:dvdchavarri@gmail.com?subject=TensorFlow%20basic%20workshop">dvdchavarri@gmail.com</a>
 
 
 ### Special thanks and metions to follow resources:
 
-[Medium Article: Hellow world ethereum dapp](https://medium.com/@mvmurthy/full-stack-hello-world-voting-ethereum-dapp-tutorial-part-1-40d2d0d807c2)
