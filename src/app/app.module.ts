@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/+home/home.component';
-import { CandidatesService } from './services/candidates.service';
+import { ImagesService } from './services/images.service';
 
 
 @NgModule({
@@ -18,7 +18,7 @@ import { CandidatesService } from './services/candidates.service';
     FormsModule,
     HttpModule
   ],
-  providers: [CandidatesService],
+  providers: [ImagesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

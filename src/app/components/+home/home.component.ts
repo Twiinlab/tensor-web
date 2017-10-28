@@ -1,5 +1,5 @@
 import {
-  Component, Input, ElementRef, AfterViewInit, ViewChild
+  Component, Input, ElementRef, AfterViewInit, OnInit, ViewChild
 } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
@@ -9,12 +9,14 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/pairwise';
 import 'rxjs/add/operator/switchMap';
 
+import { ImagesService} from '../../services/images.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 
   @ViewChild('myBoard') public canvas: ElementRef;
   @ViewChild('downloadButton') public downloadButton: ElementRef;
@@ -24,6 +26,19 @@ export class HomeComponent implements AfterViewInit {
 
   private cx: CanvasRenderingContext2D;
 
+  constructor(
+    private imagesService: ImagesService
+  ) { }
+
+
+  public ngOnInit() {
+    const self = this;
+    const button: any = document.getElementById('btn-download');
+    button.addEventListener('click', function (e) {
+        const dataURL = self.canvas.nativeElement.toDataURL('image/png');
+        button.href = dataURL;
+    });
+  }
   public ngAfterViewInit() {
     const canvasEl: HTMLCanvasElement = this.canvas.nativeElement;
     this.cx = canvasEl.getContext('2d');
@@ -39,6 +54,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   private captureEvents(canvasEl: HTMLCanvasElement) {
+    const self = this;
     const eventUp = Observable.fromEvent(canvasEl, 'mouseup');
 
     Observable
@@ -64,6 +80,8 @@ export class HomeComponent implements AfterViewInit {
 
       eventUp.subscribe( event => {
         console.log('eventUp');
+        const dataURL = this.canvas.nativeElement.toDataURL('image/png');
+        self.imagesService.sendImage(dataURL);
       });
   }
 
@@ -78,13 +96,5 @@ export class HomeComponent implements AfterViewInit {
       this.cx.stroke();
     }
   }
-
-  private onDownloadImage(event) {
-    const dataURL = this.canvas.nativeElement.toDataURL('image/png');
-    // dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
-    this.downloadButton.nativeElement.href = dataURL;
-  }
-
-
 
 }
