@@ -5,5 +5,13 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api/'
+  apiUrl: 'http://localhost:3000/api/',
+  firebase: {
+    apiKey: 'AIzaSyC369reULNUCBbeIYpk1AXKb2aR1hME6Rs',
+    authDomain: 'tensorweb-af554.firebaseapp.com',
+    databaseURL: 'https://tensorweb-af554.firebaseio.com',
+    projectId: 'tensorweb-af554',
+    storageBucket: 'tensorweb-af554.appspot.com',
+    messagingSenderId: '996649256353'
+  }
 };

@@ -3,6 +3,10 @@ import {
 } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
+import { FirebaseApp } from 'angularfire2'; // for methods
+// import * as firebase from 'firebase'; // for typings
+import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/takeUntil';
@@ -10,6 +14,11 @@ import 'rxjs/add/operator/pairwise';
 import 'rxjs/add/operator/switchMap';
 
 import { ImagesService} from '../../services/images.service';
+import { AuthService} from '../../services/auth.service';
+
+import { environment } from '../../../environments/environment';
+
+declare var firebase: any;
 
 @Component({
   selector: 'app-home',
@@ -24,21 +33,43 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @Input() public width = 400;
   @Input() public height = 400;
 
+  items: any;
+
+  auth: any;
+  database: any;
+  storage: any;
+
+  authState: any;
+
   private cx: CanvasRenderingContext2D;
 
   constructor(
-    private imagesService: ImagesService
+    private authService: AuthService,
+    private imagesService: ImagesService,
+    private fb: FirebaseApp,
+    private ngstore: AngularFirestore,
+    private af: AngularFireAuth
   ) { }
 
 
   public ngOnInit() {
-    const self = this;
-    const button: any = document.getElementById('btn-download');
-    button.addEventListener('click', function (e) {
-        const dataURL = self.canvas.nativeElement.toDataURL('image/png');
-        button.href = dataURL;
+    this.items = this.ngstore.collection('items').valueChanges();
+    this.initFirebase();
+  }
+
+  public initFirebase() {
+    firebase.initializeApp(environment.firebase);
+
+    // Get a reference to the storage service, which is used to create references in your storage bucket
+    this.auth = firebase.auth();
+    this.database = firebase.database();
+    this.storage = firebase.storage();
+    this.authService.anonymousLogin();
+    this.af.authState.subscribe((auth) => {
+      this.authState = auth;
     });
   }
+
   public ngAfterViewInit() {
     const canvasEl: HTMLCanvasElement = this.canvas.nativeElement;
     this.cx = canvasEl.getContext('2d');
@@ -46,7 +77,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     canvasEl.width = this.width;
     canvasEl.height = this.height;
 
-    this.cx.lineWidth = 3;
+    this.cx.lineWidth = 10;
     this.cx.lineCap = 'round';
     this.cx.strokeStyle = '#000';
 
@@ -81,7 +112,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
       eventUp.subscribe( event => {
         console.log('eventUp');
         const dataURL = this.canvas.nativeElement.toDataURL('image/png');
-        self.imagesService.sendImage(dataURL);
+        const path = `images/${this.authState.uid}`;
+        self.storage.ref().child(path).putString(dataURL, 'data_url').then(function(snapshot) {
+          console.log('Uploaded a data_url string!');
+        });
+
       });
   }
 
