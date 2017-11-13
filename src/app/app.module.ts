@@ -23,11 +23,11 @@ import { AuthService } from './services/auth.service';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
-    AngularFireModule.initializeApp(environment.firebase, 'tensorweb-af554'),
-    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    AngularFireDatabaseModule
+    HttpModule
+    // AngularFireModule.initializeApp(environment.firebase, 'tensorweb-af554'),
+    // AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+    // AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    // AngularFireDatabaseModule
   ],
   providers: [ImagesService, AuthService],
   bootstrap: [AppComponent]

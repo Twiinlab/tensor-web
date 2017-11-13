@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api/',
+  apiUrl: 'http://127.0.0.1:8080',
   firebase: {
     apiKey: 'AIzaSyC369reULNUCBbeIYpk1AXKb2aR1hME6Rs',
     authDomain: 'tensorweb-af554.firebaseapp.com',

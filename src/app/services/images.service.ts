@@ -16,8 +16,7 @@ export class ImagesService {
   ) { }
 
   sendImage(imageData): Observable<any[]> {
-    // environment.apiUrl + this.endpointUrl, {image: imageData})
-    return this.http.post('https://jsonplaceholder.typicode.com', {image: imageData})
+    return this.http.post(environment.apiUrl + '/predict', {imageBase64: imageData})
       .map(res => this.extractData(res) )
       .catch(this.handleError);
   }

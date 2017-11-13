@@ -53,21 +53,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 
   public ngOnInit() {
-    this.items = this.ngstore.collection('items').valueChanges();
-    this.initFirebase();
+    // this.items = this.ngstore.collection('items').valueChanges();
+    // this.initFirebase();
   }
 
   public initFirebase() {
-    firebase.initializeApp(environment.firebase);
+    // firebase.initializeApp(environment.firebase);
 
     // Get a reference to the storage service, which is used to create references in your storage bucket
-    this.auth = firebase.auth();
-    this.database = firebase.database();
-    this.storage = firebase.storage();
-    this.authService.anonymousLogin();
-    this.af.authState.subscribe((auth) => {
-      this.authState = auth;
-    });
+    // this.auth = firebase.auth();
+    // this.database = firebase.database();
+    // this.storage = firebase.storage();
+    // this.authService.anonymousLogin();
+    // this.af.authState.subscribe((auth) => {
+    //   this.authState = auth;
+    // });
   }
 
   public ngAfterViewInit() {
@@ -82,6 +82,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.cx.strokeStyle = '#000';
 
     this.captureEvents(canvasEl);
+  }
+
+  private onClearCanvas() {
+    const c = this.canvas.nativeElement;
+    const ctx = c.getContext('2d');
+    ctx.clearRect(0, 0, c.width, c.height);
+    ctx.beginPath();
   }
 
   private captureEvents(canvasEl: HTMLCanvasElement) {
@@ -110,12 +117,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
       });
 
       eventUp.subscribe( event => {
+        debugger;
         console.log('eventUp');
         const dataURL = this.canvas.nativeElement.toDataURL('image/png');
-        const path = `images/${this.authState.uid}`;
-        self.storage.ref().child(path).putString(dataURL, 'data_url').then(function(snapshot) {
-          console.log('Uploaded a data_url string!');
+        self.imagesService.sendImage(dataURL)
+        .subscribe(result => {
+          debugger;
+          console.log('result' + result);
         });
+        // const path = `images/${this.authState.uid}`;
+        // self.storage.ref().child(path).putString(dataURL, 'data_url').then(function(snapshot) {
+        //   console.log('Uploaded a data_url string!');
+        // });
 
       });
   }
