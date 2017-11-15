@@ -1,8 +1,5 @@
 <div class="home">
   <div class="container">
-    <div class="jumbotron">
-      <h2>Hello Etherium Basic!!</h2>
-    </div>
     <div class="panel panel-primary">
       <div class="panel-heading">Canvas</div>
       <div class="panel-body">
@@ -10,13 +7,7 @@
               <canvas #myBoard ></canvas>
               <button (click)="onClearCanvas()">clear</button>
           </div>
-          items:
-          <ul>
-            <li class="text" *ngFor="let item of items | async">
-              {{item | json}}
-            </li>
-          </ul>
-          <p> authState: {{ authState | json }}</p>
+          Prediction: {{ predictionAnswer }}
       </div>
     </div>
   </div>

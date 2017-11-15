@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -15,8 +15,10 @@ export class ImagesService {
     private http: Http
   ) { }
 
-  sendImage(imageData): Observable<any[]> {
-    return this.http.post(environment.apiUrl + '/predict', {imageBase64: imageData})
+  sendImage(imageData): Observable<any> {
+    const formData = new FormData();
+    formData.append('imageBase64', imageData);
+    return this.http.post(environment.apiUrl + '/predict', formData)
       .map(res => this.extractData(res) )
       .catch(this.handleError);
   }

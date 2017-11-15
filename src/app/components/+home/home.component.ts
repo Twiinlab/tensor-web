@@ -40,15 +40,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
   storage: any;
 
   authState: any;
+  predictionAnswer: String = '';
+  categoryList = ['duck', 'smile', 'car', 'pencil', 'star', 'burger', 'cookie', 'rabbit', 'moon', 'icecream'];
 
   private cx: CanvasRenderingContext2D;
 
   constructor(
-    private authService: AuthService,
-    private imagesService: ImagesService,
-    private fb: FirebaseApp,
-    private ngstore: AngularFirestore,
-    private af: AngularFireAuth
+    private imagesService: ImagesService
+    // private authService: AuthService,
+    // private fb: FirebaseApp,
+    // private ngstore: AngularFirestore,
+    // private af: AngularFireAuth
   ) { }
 
 
@@ -122,14 +124,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         const dataURL = this.canvas.nativeElement.toDataURL('image/png');
         self.imagesService.sendImage(dataURL)
         .subscribe(result => {
-          debugger;
-          console.log('result' + result);
+          console.log('prediction' + result.prediction);
+          self.predictionAnswer = result.prediction;
         });
-        // const path = `images/${this.authState.uid}`;
-        // self.storage.ref().child(path).putString(dataURL, 'data_url').then(function(snapshot) {
-        //   console.log('Uploaded a data_url string!');
-        // });
-
       });
   }
 
