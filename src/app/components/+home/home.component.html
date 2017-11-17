@@ -7,7 +7,8 @@
               <canvas #myBoard ></canvas>
               <button (click)="onClearCanvas()">clear</button>
           </div>
-          Prediction: {{ predictionAnswer }}
+          Prediction: {{ predictionAnswer | json}}
+          maxValue : {{ maxValue | json }}
       </div>
     </div>
   </div>

@@ -40,7 +40,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   storage: any;
 
   authState: any;
-  predictionAnswer: String = '';
+  predictionAnswer = [];
+  maxValue: any;
+
   categoryList = ['duck', 'smile', 'car', 'pencil', 'star', 'burger', 'cookie', 'rabbit', 'moon', 'icecream'];
 
   private cx: CanvasRenderingContext2D;
@@ -126,8 +128,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
         .subscribe(result => {
           console.log('prediction' + result.prediction);
           self.predictionAnswer = result.prediction;
+          self.maxValue = self.categoryList[self.getHighestValuePosition(result.prediction)];
         });
       });
+  }
+
+  private getHighestValuePosition(list) {
+    let maxValue = 0;
+    list.forEach(value => {
+      if (value > maxValue) {
+        maxValue = value;
+      }
+    });
+    return list.indexOf(maxValue);
   }
 
   private drawOnCanvas(prevPos: { x: number, y: number }, currentPos: { x: number, y: number }) {
